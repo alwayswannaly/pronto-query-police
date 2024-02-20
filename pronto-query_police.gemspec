@@ -1,17 +1,17 @@
 # -*- encoding: utf-8 -*-
 $LOAD_PATH.push File.expand_path('../lib', __FILE__)
 
-require 'pronto/dirty_words/version'
+require 'pronto/query_police/version'
 
 Gem::Specification.new do |s|
-  s.name = 'pronto-dirty_words'
-  s.version = Pronto::DirtyWordsVersion::VERSION
+  s.name = 'pronto-query_police'
+  s.version = Pronto::QueryPoliceVersion::VERSION
   s.platform = Gem::Platform::RUBY
-  s.authors = ['Kevin Jalbert']
-  s.email = 'kevin.j.jalbert@gmail.com'
-  s.homepage = 'https://github.com/kevinjalbert/pronto-dirty_words'
+  s.authors = ['Shubham Anand']
+  s.email = 'shubham@scaler.com'
+  s.homepage = 'https://github.com/alwayswannaly/pronto-query-police'
   s.summary = <<-EOF
-    Pronto runner for flagging the Seven Dirty Words
+    Pronto runner for flagging bad queries
   EOF
 
   s.licenses = ['MIT']
@@ -28,3 +28,4 @@ Gem::Specification.new do |s|
   s.add_development_dependency('rake', '~> 12.0')
   s.add_development_dependency('rspec', '~> 3.4')
 end
+

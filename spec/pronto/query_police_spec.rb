@@ -1,8 +1,25 @@
 require 'spec_helper'
 
+QUERY_POLICE_MOCK_REPORT = <<-HEREDOC
+{
+  "/test.txt:2:in `after_create_actions'": {
+    "debt": 840.0,
+    "query": "SELECT  `user_company_profiles`.* FROM `user_company_profiles` WHERE `user_company_profiles`.`user_id` = 1 LIMIT 1",
+    "file": "/app/models/user.rb:2747:in `after_create_actions'",
+    "analysis": "Bad Query"
+  },
+  "/test.txt:4:in `initialize'": {
+    "debt": 740.0,
+    "query": "SELECT  `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1",
+    "file": "/app/services/users/analytics/identifier/generate_service.rb:28:in `initialize'",
+    "analysis": "Bad Query"
+  }
+}
+HEREDOC
+
 module Pronto
-  describe DirtyWords do
-    let(:dirty_words) { DirtyWords.new(patches) }
+  describe QueryPolice do
+    let(:query_police) { QueryPolice.new(patches) }
     let(:patches) { [] }
 
     describe '#run' do
@@ -20,7 +37,7 @@ module Pronto
         let(:patches) { nil }
 
         it 'returns an empty array' do
-          expect(dirty_words.run).to eql([])
+          expect(query_police.run).to eql([])
         end
       end
 
@@ -28,11 +45,15 @@ module Pronto
         let(:patches) { [] }
 
         it 'returns an empty array' do
-          expect(dirty_words.run).to eql([])
+          expect(query_police.run).to eql([])
         end
       end
 
       context 'with patch data' do
+        before(:each) do
+          add_to_index(Pronto::QueryPolice::REPORT_NAME, QUERY_POLICE_MOCK_REPORT)
+        end
+
         before(:each) do
           content = <<-HEREDOC
           Line 1 text
@@ -61,11 +82,11 @@ module Pronto
           end
 
           it 'returns correct number of warnings' do
-            expect(dirty_words.run.count).to eql(1)
+            expect(query_police.run.count).to eql(1)
           end
 
           it 'has correct first message' do
-            expect(dirty_words.run.first.msg).to eql('Avoid using one of the seven dirty words')
+            expect(query_police.run.first.msg).to eql('Query with debt - 840.0 detected')
           end
         end
 
@@ -79,7 +100,7 @@ module Pronto
           end
 
           it 'returns no warnings' do
-            expect(dirty_words.run.count).to eql(0)
+            expect(query_police.run.count).to eql(0)
           end
         end
       end
