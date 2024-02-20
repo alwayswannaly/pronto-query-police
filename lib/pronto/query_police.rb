@@ -4,7 +4,6 @@ require 'shellwords'
 module Pronto
   class QueryPolice < Runner
     REPORT_NAME = "qp-report.json"
-    DIRTY_WORDS = ['shit', 'piss', 'fuck', 'cunt', 'cocksucker', 'motherfucker', 'tits']
 
     def run
       return [] if !@patches || @patches.count.zero?
@@ -45,7 +44,7 @@ module Pronto
 
         File.foreach(escaped_file_path).with_index do |line, line_num|
           bad_query_reports.each do |report|
-            offenses << report if report[:line_number] == line_num  && escaped_file_path.include?(report[:file])
+            offenses << report if report[:line_number] == (line_num + 1) && escaped_file_path.include?(report[:file])
           end
         end
 
