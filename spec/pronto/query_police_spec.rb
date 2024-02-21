@@ -74,6 +74,7 @@ module Pronto
             Line 1 text
             Line 2 text ... shit
             Line 3 text
+            Line 4 Text
             HEREDOC
 
             add_to_index('test.txt', updated_content)
@@ -82,11 +83,14 @@ module Pronto
           end
 
           it 'returns correct number of warnings' do
-            expect(query_police.run.count).to eql(1)
+            expect(query_police.run.count).to eql(2)
           end
 
-          it 'has correct first message' do
-            expect(query_police.run.first.msg).to eql('Query with debt - 840.0 detected')
+          it 'has correct messages' do
+            expect(query_police.run.map {|r| r.msg }).to eql([
+              "Query with debt - 840.0 detected",
+              "Query with debt - 740.0 detected"
+            ])
           end
         end
 

@@ -68,6 +68,8 @@ module Pronto
           line_number: line_number.to_i
         }
       end
+    rescue => e
+      []
     end
   end
 end
