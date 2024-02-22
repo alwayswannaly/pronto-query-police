@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
   EOF
 
   s.licenses = ['MIT']
-  s.required_ruby_version = '>= 2.5'
+  s.required_ruby_version = '>= 2.4'
   s.rubygems_version = '1.8.23'
 
   s.files = Dir.glob('{lib}/**/*') + %w(LICENSE README.md)
@@ -28,4 +28,3 @@ Gem::Specification.new do |s|
   s.add_development_dependency('rake', '~> 12.0')
   s.add_development_dependency('rspec', '~> 3.4')
 end
-
