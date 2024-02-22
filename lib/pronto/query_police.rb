@@ -25,7 +25,7 @@ module Pronto
         patch
           .added_lines
           .select { |line| line.new_lineno == offence.dig(:line_number) }
-          .map { |line| new_message("Query with debt - #{offence.dig(:debt)} detected", line) }
+          .map { |line| new_message("Query with debt - #{offence.dig(:debt)} detected\n```\n#{offence.dig(:analysis)}\n```", line) }
       end
     end
 

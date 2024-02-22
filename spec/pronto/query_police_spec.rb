@@ -88,8 +88,8 @@ module Pronto
 
           it 'has correct messages' do
             expect(query_police.run.map {|r| r.msg }).to eql([
-              "Query with debt - 840.0 detected",
-              "Query with debt - 740.0 detected"
+              "Query with debt - 840.0 detected\n```\nBad Query\n```",
+              "Query with debt - 740.0 detected\n```\nBad Query\n```"
             ])
           end
         end
